@@ -1,0 +1,7 @@
+port: 'APP_PORT'
+secret: 'APP_SECRET'
+database:
+  name: 'DATABASE_NAME'
+  url: 'DATABASE_URL'
+  username: 'DATABASE_USERNAME'
+  password: 'DATABASE_PASSWORD'
