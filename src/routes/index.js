@@ -1,4 +1,5 @@
-var routes = require("express").Router()
+const routes = require("express").Router()
+const config = require("config")
 
 routes.get("/", function(req, res){
   res.status(200).json("{ body: home }")
@@ -18,6 +19,10 @@ routes.get("/edit/:id", require("./write.js"))
 // read.js
 routes.get("/read", require("./read.js"))
 routes.get("/read/:post", require("./read.js"))
+
+//cookie.js
+routes.get("/cookie", require("./cookie"))
+routes.get("/cookie-parse", require("./cookie"))
 
 // 404
 routes.get("*", function(req, res, next){
