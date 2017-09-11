@@ -28,7 +28,7 @@ const logger = require("morgan")("dev")
 app.use(logger)
 
 // anything in assets should be served directly (NOT TESTED)
-express.static("/assets")
+app.use(express.static(__dirname + "/public"))
 
 // TODO (DONE): view engines
 

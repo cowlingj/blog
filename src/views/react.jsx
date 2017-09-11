@@ -5,6 +5,7 @@ class View extends React.Component {
       <body>
         <h1 id="header">this is some text</h1>
         <p>{this.props.text}</p>
+        <script src="/assets/js/react.js" type="text/javascript"></script>
       </body>
     </html>
   )}
