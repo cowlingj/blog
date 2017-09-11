@@ -1,18 +1,21 @@
 var gulp = require("gulp")
-
-var babel = require("gulp-babel")
-var buffer = require("gulp-buffer")
-var eslint = require("gulp-eslint")
-var imagemin = require("gulp-imagemin")
-var newer = require("gulp-newer")
-var sourcemaps = require("gulp-sourcemaps")
-var tap = require("gulp-tap")
-var uglify = require("gulp-uglify")
 var gutil = require("gulp-util")
 
-var browserify = require("browserify")
-var del = require("del")
+var args = require("yargs").argv // help docs
+var babel = require("gulp-babel") // babel
+var buffer = require("gulp-buffer")
+var eslint = require("gulp-eslint") // linting
+var imagemin = require("gulp-imagemin") // image compressing
+var newer = require("gulp-newer") // check if newer
+var sourcemaps = require("gulp-sourcemaps") // generate sourcemaps
+var tap = require("gulp-tap")
+var uglify = require("gulp-uglify") // uglify javascript
+var usage = require("gulp-help-doc") // help docs
 
+var browserify = require("browserify") // client scripts
+var del = require("del") // delete files
+
+// useful folders
 var folder = {
   src: "./src/",
   build: "./build/",
@@ -24,7 +27,12 @@ var folder = {
   assets_out: "./build/public/assets/"
 }
 
-gulp.task("build", ["lint", "views", "babel", "assets"], function(){
+/**
+ * build the project
+ * @task {build}
+ * @order {1}
+ */
+gulp.task("build", ["lint", "views", "transpile", "assets"], function(){
   var out = folder.build
   return gulp.src(folder.src + "**/*", [
     "!" + folder.views_in + "**/*",
@@ -35,8 +43,18 @@ gulp.task("build", ["lint", "views", "babel", "assets"], function(){
     .pipe(gulp.dest(out))
 })
 
+/**
+ * handles all static assets, browserifying scripts, generating sourcemaps
+ * processing scss, and compresses images
+ * @task {assets}
+ * @order {3}
+ */
 gulp.task("assets", ["assets-js", "assets-img"], function(){ return })
 
+/**
+ * browserifys all client scripts that use require and uglifys them
+ * also generates sourcemaps
+ */
 gulp.task("assets-js", function(){
   return gulp.src(folder.assets_in + "**/*.js")
     .pipe(tap(function (file) {
@@ -53,6 +71,9 @@ gulp.task("assets-js", function(){
     .pipe(gulp.dest(folder.assets_out))
 })
 
+/**
+ * compresses images
+ */
 gulp.task("assets-img", function(){
   var out = folder.assets_out + "/img"
   return gulp.src(folder.assets_in + "img/**/*")
@@ -61,9 +82,17 @@ gulp.task("assets-img", function(){
     .pipe(gulp.dest(out))
 })
 
-gulp.task("babel", ["lint"], function(){
+/**
+ * transpiles server files with babel and uglifys them
+ * @task {transpile}
+ * @order {4}
+ */
+gulp.task("transpile", ["lint"], function(){
   var out = folder.build
-  return gulp.src(folder.src + "**/*.js", ["!" + folder.views_in + "**/*"])
+  return gulp.src(folder.src + "**/*.js", [
+    "!" + folder.views_in + "**/*",
+    "!" + folder.assets_in + "**/*"
+  ])
     .pipe(tap(function(f){
       gutil.log("transpiling: " + f.path)
     }))
@@ -73,10 +102,18 @@ gulp.task("babel", ["lint"], function(){
     .pipe(gulp.dest(out))
 })
 
+/**
+ * handles all view files, transpiling where necessary
+ * @task {views}
+ * @oder {5}
+ */
 gulp.task("views", ["views-react", "views-handlebars", "views-pug"], function(){
   return
 })
 
+/**
+ * moves newer pug files to build
+ */
 gulp.task("views-pug", function(){
   var out = folder.views_out
   return gulp.src(folder.views_in + "**/*.pug")
@@ -84,6 +121,9 @@ gulp.task("views-pug", function(){
     .pipe(gulp.dest(out))
 })
 
+/**
+ * moves newer handlebars files to build
+ */
 gulp.task("views-handlebars", function(){
   var out = folder.views_out
   return gulp.src(folder.views_in + "**/*.hbs")
@@ -91,6 +131,9 @@ gulp.task("views-handlebars", function(){
     .pipe(gulp.dest(out))
 })
 
+/**
+ * transpiles jsx and moves newer generated files to build
+ */
 gulp.task("views-react", function(){
   var out = folder.views_out
   return gulp.src(folder.views_in + "**/*.jsx")
@@ -100,18 +143,44 @@ gulp.task("views-react", function(){
     .pipe(gulp.dest(out))
 })
 
+/**
+ * lints all javascript files
+ * @task {lint}
+ * @order {6}
+ * @arg {file | -f} file to lint
+ */
 gulp.task("lint", function(){
-  return gulp.src(folder.src + "**/*.js", ["!" + folder.views_in + "**/*"])
-    .pipe(eslint({ configFile: ".eslintrc"}))
-    .pipe(eslint.format())
-    .pipe(eslint.failOnError())
-    .on("error", function(error) { gutil.log("error: " + error) })
+  var file = typeof args.f === "null" || typeof args.f === "undefined" ? args.file : args.f
+  if (! (typeof file === "null" || typeof file === "undefined")) {
+    return gulp.src(file)
+      .pipe(eslint({ configFile: ".eslintrc"}))
+      .pipe(eslint.format())
+      .pipe(eslint.failOnError())
+      .on("error", function(error) { gutil.log("error: " + error) })
+  } else {
+    return gulp.src(folder.src + "**/*.js", ["!" + folder.views_in + "**/*"])
+      .pipe(eslint({ configFile: ".eslintrc"}))
+      .pipe(eslint.format())
+      .pipe(eslint.failOnError())
+      .on("error", function(error) { gutil.log("error: " + error) })
+  }
 })
 
+/**
+ * cleans the build directory
+ * @task {clean}
+ * @order {2}
+ */
 gulp.task("clean", function(){
   return del(folder.build + "*")
 })
 
-gulp.task("default", function(){
-  return gutil.log("gulp working")
+/**
+ * displays this help message
+ * @order {7}
+ */
+gulp.task("help", function(){
+  return usage(gulp)
 })
+
+gulp.task("default", ["help"] )
