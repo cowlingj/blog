@@ -1,0 +1,22 @@
+{
+	"variables": [],
+	"info": {
+		"name": "blog",
+		"_postman_id": "8f071466-ad85-3bc0-5268-27efff1622b5",
+		"description": "a postman collection for my simple blog website",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Homepage",
+			"request": {
+				"url": "http://localhost:3000",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
