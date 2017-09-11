@@ -2,7 +2,7 @@ const routes = require("express").Router()
 const config = require("config")
 const cookieSigner = require("cookie-signature")
 
-// TODO: get cookies to work
+// TODO (DONE:) get cookies to work
 // TODO (DONE): cookie vs jwt, ===
 // TODO: db
 routes.get("/cookie", function(req, res){
