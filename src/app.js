@@ -10,8 +10,6 @@ const http = require("http")
 const express = require("express")
 const app = express()
 
-// TODO: view engines
-
 const bodyParser= require("body-parser")
 // parse application/x-www-form-urlencoded
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -32,9 +30,18 @@ app.use(logger)
 // anything in assets should be served directly (NOT TESTED)
 express.static("/assets")
 
-// leave everything to the router
-const routes = require("./routes")
-app.use("/", routes)
+// TODO (DONE): view engines
+
+app.set("views", __dirname + "/views")
+
+// for a single view engine
+// app.set("view engine", "ext")
+
+// since we're using many
+const consolidate = require("consolidate")
+app.engine("pug", consolidate.pug)
+app.engine("jsx", consolidate.react)
+app.engine("hbs", consolidate.handlebars)
 
 // ssl and servers (http, https)
 const forceSSL = require("express-force-ssl")
@@ -42,6 +49,10 @@ app.set("forceSSLOptions", {
   enable301Redirects: true,
   httpsPort: config.httpsPort
 })
+
+// leave everything to the router
+const routes = require("./routes")
+app.use("/", routes)
 
 const httpServer = http.createServer(app)
 const httpsServer = https.createServer({
