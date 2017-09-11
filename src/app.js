@@ -1,5 +1,10 @@
 // our configuration
 const config = require("config")
+var fs = require("fs")
+const certificate = fs.readFileSync("https/server.crt")
+const key = fs.readFileSync("https/server.key")
+const https = require("https")
+const http = require("http")
 
 // express app
 const express = require("express")
@@ -31,7 +36,23 @@ express.static("/assets")
 const routes = require("./routes")
 app.use("/", routes)
 
+// ssl and servers (http, https)
+const forceSSL = require("express-force-ssl")
+app.set("forceSSLOptions", {
+  enable301Redirects: true,
+  httpsPort: config.httpsPort
+})
+
+const httpServer = http.createServer(app)
+const httpsServer = https.createServer({
+  cert: certificate,
+  key: key
+}, app)
+
 // listen
-app.listen(config.port, () => { console.log("listening") })
+httpServer.listen(config.httpPort, () => { console.log("http listening [" + config.httpPort + "]") })
+// if trying to ping server below, we need to use https
+// a simple thing but easy to forget
+httpsServer.listen(config.httpsPort, () => { console.log("https listening [" + config.httpsPort + "]") })
 
 module.exports = app

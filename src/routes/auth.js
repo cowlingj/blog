@@ -1,22 +1,24 @@
-var routes = require("express").Router()
+const routes = require("express").Router()
+const forceSSL = require("express-force-ssl")
+const config = require("config")
 
-routes.get("/register", function(req, res){
+routes.get("/register", forceSSL, function(req, res){
   res.status(200).json("{ body: register }")
 })
 
-routes.post("/register", function(req, res){
+routes.post("/register", forceSSL, function(req, res){
   res.status(200).json("{ body: login }")
 })
 
-routes.get("/login", function(req, res){
+routes.get("/login", forceSSL, function(req, res){
   res.status(200).json("{ body: login }")
 })
 
-routes.post("/login", function(req, res){
+routes.post("/login", forceSSL, function(req, res){
   res.status(200).json("{ body: login }")
 })
 
-routes.get("/logout", function(req, res){
+routes.get("/logout", forceSSL, function(req, res){
   res.status(200).json("{ body: logout }")
 })
 
