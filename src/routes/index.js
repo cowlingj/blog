@@ -20,14 +20,19 @@ routes.get("/edit/:id", require("./write.js"))
 routes.get("/read", require("./read.js"))
 routes.get("/read/:post", require("./read.js"))
 
-//cookie.js
+// cookie.js
 routes.get("/cookie", require("./cookie"))
 routes.get("/cookie-parse", require("./cookie"))
 
-//views.js
+// views.js
 routes.get("/react", require("./views.js"))
 routes.get("/pug", require("./views.js"))
 routes.get("/handlebars", require("./views.js"))
+
+// user.js
+routes.post("/user/new", require("./user.js"))
+routes.get("/user", require("./user.js"))
+routes.get("/user/:id", require("./user.js"))
 
 // 404
 routes.get("*", function(req, res, next){
