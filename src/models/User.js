@@ -5,7 +5,7 @@ const uniqueValidator = require("mongoose-unique-validator")
 
 const userSchema = new Schema({
   // type, required, unique
-  userId: {
+  id: {
     type: Number
   },
   firstName: {
@@ -29,11 +29,15 @@ const userSchema = new Schema({
       message: "not a valid email"
     }
   },
-  hashedPassword: String
+  hashedPassword: String,
+  isSuperuser: {
+    type: Boolean,
+    default: () => { return false }
+  }
 })
 
 userSchema.plugin(uniqueValidator)
-userSchema.plugin(autoIncrement.plugin, { model: "User", field: "userId" })
+userSchema.plugin(autoIncrement.plugin, { model: "User", field: "id" })
 
 const User = mongoose.model("User", userSchema)
 

@@ -12,8 +12,9 @@ const config = require("config")
   */
 function generateUrl(){
   return "mongodb://" + config.db.username + ":" + config.db.password + "@"
-    + config.db.host + ":" + config.db.port + "/" + config.db.dbname
-    + "?authSource=admin&authMechanism=SCRAM-SHA-1"
+    + config.db.host + ":" + config.db.port + "/" + config.db.name
+    + "?authSource=" + config.db.auth.name + "&authMechanism="
+    + config.db.auth.mechanism
 }
 
 /**
