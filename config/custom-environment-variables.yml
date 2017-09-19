@@ -1,7 +1,13 @@
-port: 'APP_PORT'
+httpPort: 'APP_HTTP_PORT'
+httpsPort: 'APP_HTTPS_PORT'
+cookieSignature: 'APP_COOKIE_SIGNATURE'
 secret: 'APP_SECRET'
-database:
+db:
   name: 'DATABASE_NAME'
-  url: 'DATABASE_URL'
+  host: 'DATABASE_HOST'
+  port: 'DATABASE_PORT'
   username: 'DATABASE_USERNAME'
   password: 'DATABASE_PASSWORD'
+  auth:
+    name: 'AUTH_DATABASE_NAME'
+    mechanism: 'AUTH_DATABASE_MECHANISM'
