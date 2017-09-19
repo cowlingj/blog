@@ -31,6 +31,7 @@ routes.get("/handlebars", require("./views.js"))
 
 // user.js
 routes.post("/user/new", require("./user.js"))
+routes.get("/user/me", require("./user.js"))
 routes.get("/user", require("./user.js"))
 routes.get("/user/:id", require("./user.js"))
 
