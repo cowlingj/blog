@@ -57,6 +57,7 @@ gulp.task("assets", ["assets-js", "assets-img"], function(){ return })
  */
 gulp.task("assets-js", function(){
   return gulp.src(folder.assets_in + "**/*.js")
+    .pipe(newer(folder.assets_out))
     .pipe(tap(function (file) {
       gutil.log("bundling " + file.path)
       // replace file contents with browserify's bundle stream
@@ -93,10 +94,10 @@ gulp.task("transpile", ["lint"], function(){
     "!" + folder.views_in + "**/*",
     "!" + folder.assets_in + "**/*"
   ])
+    .pipe(newer(out))
     .pipe(tap(function(f){
       gutil.log("transpiling: " + f.path)
     }))
-    .pipe(newer(out))
     .pipe(babel())
     .pipe(uglify())
     .pipe(gulp.dest(out))
@@ -151,7 +152,7 @@ gulp.task("views-react", function(){
  */
 gulp.task("lint", function(){
   var file = typeof args.f === "null" || typeof args.f === "undefined" ? args.file : args.f
-  if (! (typeof file === "null" || typeof file === "undefined")) {
+  if (!(typeof file === "null" || typeof file === "undefined")) {
     return gulp.src(file)
       .pipe(eslint({ configFile: ".eslintrc"}))
       .pipe(eslint.format())
@@ -159,6 +160,7 @@ gulp.task("lint", function(){
       .on("error", function(error) { gutil.log("error: " + error) })
   } else {
     return gulp.src(folder.src + "**/*.js", ["!" + folder.views_in + "**/*"])
+      .pipe(newer(folder.build + "**/*.js", ["!" + folder.views_out + "**/*"]))
       .pipe(eslint({ configFile: ".eslintrc"}))
       .pipe(eslint.format())
       .pipe(eslint.failOnError())

@@ -17,7 +17,12 @@ function decrypt(text){
   return dec
 }
 
+function digest(text){
+  return crypto.createHash("sha256").update(text).digest("base64")
+}
+
 module.exports = {
   encrypt: encrypt,
-  decrypt: decrypt
+  decrypt: decrypt,
+  digest: digest
 }
