@@ -152,7 +152,7 @@ gulp.task("views-react", function(){
  */
 gulp.task("lint", function(){
   var file = typeof args.f === "null" || typeof args.f === "undefined" ? args.file : args.f
-  if (! (typeof file === "null" || typeof file === "undefined") ) {
+  if (!(typeof file === "null" || typeof file === "undefined")) {
     return gulp.src(file)
       .pipe(eslint({ configFile: ".eslintrc"}))
       .pipe(eslint.format())
