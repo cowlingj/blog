@@ -92,6 +92,7 @@ conn.once("open", function() {
   // initialize plugins for mongoose
   const autoIncrement = require("mongoose-auto-increment")
   autoIncrement.initialize(conn)
+  console.log("db listening [" + config.db.host + ":" + config.db.port + "]")
 
   /****************************************************************************
    * ROUTING                                                                  *
