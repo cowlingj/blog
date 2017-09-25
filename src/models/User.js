@@ -29,7 +29,10 @@ const userSchema = new Schema({
       message: "not a valid email"
     }
   },
-  hashedPassword: String,
+  hashedPassword: {
+    type: String,
+    required: true
+  },
   isSuperuser: {
     type: Boolean,
     default: () => { return false }
