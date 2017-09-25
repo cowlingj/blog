@@ -1,0 +1,10 @@
+html
+  head
+    title reading #{post.title}
+  body
+    h1 #{post.title}
+    h3
+      a( href = "/user/" + post.authorId ) #{post.authorName}
+    p #{post.body}
+    br
+    p created: #{post.created}, updated: #{post.updated}

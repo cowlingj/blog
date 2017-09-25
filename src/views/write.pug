@@ -1,0 +1,12 @@
+html
+  head
+    link(rel = "shortcut icon" href = "/assets/img/flavicon.png" type = "image/x-icon")
+    title write
+  body
+    h1(id = "header") Write a Post
+    form(action = "/write" method = "POST")
+      input(name = "postTitle" type = "text" placeholder = "title" required = "true")
+      br
+      textarea(name = "postBody" placeholder = "write your post" required = "true" rows = "40" cols = "80")
+      br
+      input(type = "submit" value="Save")
