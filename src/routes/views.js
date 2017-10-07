@@ -1,7 +1,7 @@
 const routes = require("express").Router()
 
 routes.get("/react", function(req, res){
-  res.render("react.jsx", {text: "welcome to react"})
+  res.render("react.jsx", {text: "welcome to react"}) // TODO: why jsx and not js
 })
 
 routes.get("/pug", function(req, res){

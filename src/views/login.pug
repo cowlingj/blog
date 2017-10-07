@@ -1,0 +1,11 @@
+html
+  head
+    link(rel = "shortcut icon" href = "/assets/img/flavicon.png" type = "image/x-icon")
+    title login
+  body
+    h1(id = "header") Login
+    form(action = "/login" method = "POST")
+      input(name = "email" type = "email" placeholder = "john.smith@example.com" required = "true")
+      input(name = "password" type = "password" placeholder = "********" required = "true")
+      br
+      input(type = "submit" value="Save")

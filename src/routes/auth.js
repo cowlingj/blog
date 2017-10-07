@@ -23,7 +23,7 @@ routes.post("/register", forceSSL, auth.register, function(req, res){
 })
 
 routes.get("/login", forceSSL, function(req, res){
-  res.sendStatus(204)
+  res.status(200).render("login.pug")
 })
 
 routes.post("/login", forceSSL, auth.login, function(req, res){

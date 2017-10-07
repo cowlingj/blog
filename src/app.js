@@ -37,7 +37,6 @@ app.use(logger)
 /******************************************************************************
  * PARSING                                                                    *
  ******************************************************************************/
-
 // parse many types of body
 const bodyParser = require("body-parser")
 // parse application/x-www-form-urlencoded
@@ -54,6 +53,10 @@ app.use(textParser)
 // parse cookies and signed cookies
 const cookieParser = require("cookie-parser")
 app.use(cookieParser(config.cookieSignature))
+// protect against xxs
+// TODO: do I need this?
+const validator = require("express-validator")
+app.use(validator())
 
 /******************************************************************************/
 
