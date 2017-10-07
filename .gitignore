@@ -1,4 +1,12 @@
+# generated files
 node_modules
 build
+
+# https contains secrets
 https
+
+# config files contain secrets
 config/default.yml
+
+# logs
+*.log
